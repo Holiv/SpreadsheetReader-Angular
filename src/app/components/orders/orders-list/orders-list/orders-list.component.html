@@ -16,8 +16,17 @@
             <td>{{order.category}}</td>
             <td>{{order.date | date: "dd/MM/yyyy"}}</td>
             <td>{{order.quantity}}</td>
-            <td>{{order.value}}</td>
+            <td>{{order.value | currency : 'BRL'}}</td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{totalPedidos}}</td>
+            <td>{{totalOrderValue | currency : 'BRL'}}</td>
+          </tr>
+        </tfoot>
       </table>
 </div>

@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { OrdersListComponent } from './components/orders/orders-list/orders-list/orders-list.component';
 import { FileuploadComponent } from './components/fileupload/fileupload.component';
 import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localeBr from '@angular/common/locales/br'
+registerLocaleData(localeBr, 'br')
 
 @NgModule({
   declarations: [
