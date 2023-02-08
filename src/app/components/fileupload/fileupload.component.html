@@ -1,0 +1,13 @@
+<!-- <input type="file" class="file-input"  #fileUpload/>
+<div class="file-upload container"> -->
+
+  <!-- <button mat-mini-fab color="primary" class="upload-btn m-5" (click)="fileUpload.click()">
+    Enviar Arquivo
+  </button>
+</div> -->
+
+<div class="input-group mt-3 container w-50">
+    <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event)">
+    <button class="input-group-text" for="inputGroupFile02">Upload</button>
+    <button class="input-group-text load" for="inputGroupFile02" routerLink="orderList">Carregar Planilha</button>
+</div>
