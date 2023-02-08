@@ -1,0 +1,8 @@
+.file_upload-section{
+    display: flex;
+    justify-content: space-evenly;
+}
+.input-group{
+    /* border: 1px solid blue; */
+    width: fit-content !important;
+}

@@ -6,8 +6,16 @@
   </button>
 </div> -->
 
-<div class="input-group mt-3 container w-50">
-    <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event)">
-    <button class="input-group-text" for="inputGroupFile02">Upload</button>
-    <button class="input-group-text load" for="inputGroupFile02" routerLink="orderList">Carregar Planilha</button>
+<div class="file_upload-section container">
+    <div class="input-group mt-3  w-50">
+        <input type="file" class="form-control" id="inputGroupFile02" (change)="onChange($event)">
+        <button class="input-group-text" for="inputGroupFile02" (click)="onUpload()">Upload</button>
+    </div>
+    <div class="input-group mt-3 w-50">
+        <button class="input-group-text" for="" disabled *ngIf="loading">Loading...</button>
+        <button class="input-group-text" for="" routerLink="orderList" *ngIf="event">Carregar Planilha</button>
+    </div>
+    <div class="input-group mt-3 w-50">
+        <button class="input-group-text" for="" (click)="onClean()" routerLink="" *ngIf="clean">Limpar Dados</button>
+    </div>
 </div>
