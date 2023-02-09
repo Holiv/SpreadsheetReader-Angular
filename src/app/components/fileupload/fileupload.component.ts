@@ -20,21 +20,6 @@ export class FileuploadComponent implements OnInit{
 
   constructor(private fileUploadService: FileUploadService, private getfilesService: OrdersService, private deleteAllOrders: DeleteOrdersServiceService) {}
 
-  // onFileSelected(event: any) {
-  //   const file: File = event.target.files[0];
-
-  //   if (file) {
-  //     this.fileName = file.name;
-
-  //     const formData = new FormData();
-
-  //     formData.append('file', file);
-
-  //     this.upload$ = this.http.post(this.ApiBaseUrl + "api/orders", formData);
-
-  //     this.upload$.subscribe();
-  //   }
-  // }
   ngOnInit() {
     this.getfilesService.getAllOrders().subscribe({
       next: (event) => {
@@ -47,8 +32,6 @@ export class FileuploadComponent implements OnInit{
   };
 
   onChange(event: any) {
-    console.log(typeof(event));
-    console.log(event)
     this.file = event.target.files[0];
   }
 

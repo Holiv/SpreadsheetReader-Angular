@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from 'src/app/models/order.model';
 import { OrdersService } from 'src/app/services/orders.service'
-import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-orders-list',
@@ -30,6 +29,8 @@ export class OrdersListComponent {
   }
 
   getSum(){
+    this.totalOrderValue = 0;
+    this.totalPedidos = 0;
     this.orders.forEach(order => {
       this.totalOrderValue += order.value;   
       this.totalPedidos += order.quantity; 
