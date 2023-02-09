@@ -1,0 +1,96 @@
+
+<div class="filter_container container">
+    <div class="filter">
+      <form>
+        <fieldset>
+          <div>
+            <label for="select" class="form-label">Código</label>
+            <select id="select" class="form-select form-select-sm" (change)="codeSelection($event)">
+              <option value="">Selecione</option>
+              <option *ngFor=" let order of ordersCode">{{ order }}</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" (click)="loadSelectionByCode()">Submit</button>
+        </fieldset>
+      </form>
+    </div>
+    <div class="filter">
+        <form>
+            <fieldset>
+              <div>
+                <label for="select" class="form-label">Categoria</label>
+                <select id="select" class="form-select form-select-sm" (change)="codeSelection($event)">
+                  <option>Selecione</option>
+                  <option *ngFor="let category of ordersCategory">{{ category }}</option>
+                </select>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" (click)="loadSelectionByCategory()">Submit</button>
+            </fieldset>
+          </form>
+    </div>
+    <div class="filter">
+        <form>
+            <fieldset>
+              <div>
+                <label for="select" class="form-label">Mês</label>
+                <select id="select" class="form-select form-select-sm" (change)="codeSelection($event)">
+                  <option>Selecione</option>
+                  <option *ngFor="let orders of ordersMonth" value="{{ orders }}"> {{ getDescribedMonth(orders) }} </option>
+                </select>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" (click)="loadSelectionByMonth()">Submit</button>
+            </fieldset>
+          </form>
+    </div>
+    <div class="filter">
+      <form>
+          <fieldset>
+            <div>
+              <label for="select" class="form-label">Trimestre</label>
+              <select id="select" class="form-select form-select-sm" (change)="codeSelection($event)">
+                <option>Selecione</option>
+                <option value="1"> 1º Trimestre </option>
+                <option value="2"> 2º Trimestre </option>
+                <option value="3"> 3º Trimestre </option>
+                <option value="4"> 4º Trimestre </option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" (click)="loadSelectionByTrimestre()">Submit</button>
+          </fieldset>
+        </form>
+  </div>
+</div>
+
+<div class="filtered_data-container container" >
+  <div class="container mt-3">
+    <table class="table table-dark table-striped">
+        <thead class="thead">
+          <tr>
+            <th>Codigo</th>
+            <th>Cat. do Produto</th>
+            <th>Data</th>
+            <th>Qtd</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td>{{order.code}}</td>
+            <td>{{order.category}}</td>
+            <td>{{order.date | date: "dd/MM/yyyy"}}</td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.value | currency : 'BRL'}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{totalPedidos}}</td>
+            <td>{{totalOrderValue | currency : 'BRL'}}</td>
+          </tr>
+        </tfoot>
+      </table>
+</div>
+</div>
