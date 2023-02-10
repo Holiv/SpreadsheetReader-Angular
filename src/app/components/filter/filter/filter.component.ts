@@ -1,40 +1,45 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common'
+import { Location } from '@angular/common';
 import { Order } from 'src/app/models/order.model';
 import { OrdersService } from 'src/app/services/orders.service';
+import { Chart, registerables } from 'node_modules/chart.js';
+import 'chart.js/auto';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.css'],
 })
 export class FilterComponent {
   route: any;
-  href: string = "";
+  href: string = '';
   allowList: boolean = false;
 
   orders: Order[] = [];
   ordersCode: number[] = [];
   ordersCategory: string[] = [];
   ordersMonth: number[] = [];
-  selectedCode: any = "";
+  selectedCode: any = '';
   totalOrderValue: number = 0;
-  totalPedidos: number = 0
+  totalPedidos: number = 0;
+  chartIsActive: boolean = false;
+  myChart: Chart;
 
-  constructor(location: Location, router: Router, private orderObject: OrdersService){
+  constructor(location: Location, router: Router, private orderObject: OrdersService) {
     this.route = router;
     router.events.subscribe((val) => {
-      if(location.path() != ''){
+      if (location.path() != '') {
         this.href = location.path();
-        console.log(this.href)
+        console.log(this.href);
       } else {
-        this.href = 'Home'
+        this.href = 'Home';
       }
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.orders = [];
 
     this.orderObject.getDistinctByCode().subscribe({
@@ -43,7 +48,7 @@ export class FilterComponent {
       },
       error: (response) => {
         console.log(response);
-      }
+      },
     });
 
     this.orderObject.getDistinctByCategory().subscribe({
@@ -52,7 +57,7 @@ export class FilterComponent {
       },
       error: (response) => {
         console.log(response);
-      }
+      },
     });
 
     this.orderObject.getDistinctByMonth().subscribe({
@@ -61,45 +66,48 @@ export class FilterComponent {
       },
       error: (response) => {
         console.log(response);
-      }
-    })
+      },
+    });
   }
 
-  codeSelection(event: any){
-      this.selectedCode = event.target.value;
-      console.log(this.selectedCode);
+  codeSelection(event: any) {
+    this.selectedCode = event.target.value;
+    console.log(this.selectedCode);
   }
 
-  loadSelectionByCode(){
+  loadSelectionByCode() {
+    this.chartIsActive = false;
     this.orderObject.getByCode(this.selectedCode).subscribe({
       next: (order) => {
         this.orders = order;
         this.getSum();
-        console.log(this.orders)
+        console.log(this.orders);
       },
       error: (response) => {
         console.log(response);
-      }
-    })
-    this.allowList = !this.allowList
+      },
+    });
+    this.allowList = !this.allowList;
     console.log(this.selectedCode);
-    console.log(this.allowList)
-    console.log(this.href)
+    console.log(this.allowList);
+    console.log(this.href);
   }
 
-  loadSelectionByCategory(){
+  loadSelectionByCategory() {
+    this.chartIsActive = false;
     this.orderObject.getByCategory(this.selectedCode).subscribe({
       next: (order) => {
         this.orders = order;
         this.getSum();
       },
       error: (response) => {
-        console.log(response)
-      } 
-    })
+        console.log(response);
+      },
+    });
   }
 
-  loadSelectionByMonth(){
+  loadSelectionByMonth() {
+    this.chartIsActive = false;
     this.orderObject.getByMonth(this.selectedCode).subscribe({
       next: (order) => {
         this.orders = order;
@@ -107,67 +115,160 @@ export class FilterComponent {
       },
       error: (response) => {
         console.log(response);
-      }
-    })
+      },
+    });
   }
 
-  loadSelectionByTrimestre(){
+  loadSelectionByTrimestre() {
+    this.orders = [];
+    this.chartIsActive = true;
     this.orderObject.getByTrimestre(this.selectedCode).subscribe({
       next: (orders) => {
         this.orders = orders;
         this.getSum();
+        this.getTotalOrdersByCode(...this.ordersCode);
       },
       error: (response) => {
         console.log(response);
-      }
-    })
+      },
+    });
   }
 
-  showList(){
-    if (this.href == "/test"){
+  showList() {
+    if (this.href == '/test') {
       return true;
-    };
+    }
     return false;
-    console.log(this.href)
+    console.log(this.href);
   }
 
-  getDescribedMonth(month: number){
-    switch(month){
+  getDescribedMonth(month: number) {
+    switch (month) {
       case 1:
-        return "Janeiro"
+        return 'Janeiro';
       case 2:
-        return "Fevereiro"
+        return 'Fevereiro';
       case 3:
-        return "Março"
+        return 'Março';
       case 4:
-        return "Abril"
+        return 'Abril';
       case 5:
-        return "Maio"
+        return 'Maio';
       case 6:
-        return "Junho"
+        return 'Junho';
       case 7:
-        return "Julho"
+        return 'Julho';
       case 8:
-        return "Agosto"
+        return 'Agosto';
       case 9:
-        return "Setembro"
+        return 'Setembro';
       case 10:
-        return "Outurbo"
+        return 'Outurbo';
       case 11:
-        return "Novembro"
+        return 'Novembro';
       case 12:
-        return "Dezembro"
+        return 'Dezembro';
       default:
-        return "Mes inválido"
+        return 'Mes inválido';
     }
   }
-  
-  getSum(){
+
+  getSum() {
     this.totalOrderValue = 0;
     this.totalPedidos = 0;
-    this.orders.forEach(order => {
+    this.orders.forEach((order) => {
       this.totalPedidos += order.quantity;
       this.totalOrderValue += order.value;
+    });
+  }
+
+  getTotalOrdersByCode(...clientCode:any){
+    let totalPedidos: number = 0;
+    let valorTotal: number = 0;
+    let qtdPedidos = [];
+    let valorPedidos = [];
+
+
+    console.log(clientCode);
+    
+    for (let i = 0; i < clientCode.length; i++) {
+
+      totalPedidos = 0;
+      valorTotal = 0;
+
+      this.orders.filter(order => order.code === clientCode[i]).forEach(order => {
+        totalPedidos += order.quantity;
+        valorTotal += order.value;
+      })
+
+      qtdPedidos.push(totalPedidos);
+      valorPedidos.push(valorTotal);
+    }
+    this.renderChart(qtdPedidos, valorPedidos);
+  }
+
+  renderChart(qtdPedidos:any[], valorPedidos:any[]) {
+    if(this.myChart) this.myChart.destroy();
+    this.myChart = new Chart('t_chart', {
+      type: 'bar',
+      data: {
+        labels: this.ordersCode,
+        datasets: [
+          {
+            label: 'Pedidos',
+            data: qtdPedidos,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(201, 203, 207, 0.2)',
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(201, 203, 207)',
+            ],
+            borderWidth: 1,
+          },
+          {
+            label: 'Valor Total',
+            data: valorPedidos,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(201, 203, 207, 0.2)',
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(201, 203, 207)',
+            ],
+            borderWidth: 1,
+          }
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
     });
   }
 }
