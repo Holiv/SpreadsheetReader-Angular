@@ -61,7 +61,7 @@
   </div>
 </div>
 
-<div class="filtered_data-container container" >
+<div class="filtered_data-container container" *ngIf="!chartIsActive">
   <div class="container mt-3">
     <table class="table table-dark table-striped">
         <thead class="thead">
@@ -93,4 +93,8 @@
         </tfoot>
       </table>
 </div>
+</div>
+
+<div class="container">
+  <canvas id="t_chart" *ngIf="chartIsActive"></canvas>
 </div>
