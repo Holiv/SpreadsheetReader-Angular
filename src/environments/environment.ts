@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    ApiBaseUrl: "https://localhost:7191/"
+    ApiBaseUrl: "https://ssreader-api.azurewebsites.net/"
 };
