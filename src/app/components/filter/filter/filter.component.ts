@@ -72,7 +72,6 @@ export class FilterComponent {
 
   codeSelection(event: any) {
     this.selectedCode = event.target.value;
-    console.log(this.selectedCode);
   }
 
   loadSelectionByCode() {
@@ -81,16 +80,12 @@ export class FilterComponent {
       next: (order) => {
         this.orders = order;
         this.getSum();
-        console.log(this.orders);
       },
       error: (response) => {
         console.log(response);
       },
     });
     this.allowList = !this.allowList;
-    console.log(this.selectedCode);
-    console.log(this.allowList);
-    console.log(this.href);
   }
 
   loadSelectionByCategory() {
@@ -139,7 +134,6 @@ export class FilterComponent {
       return true;
     }
     return false;
-    console.log(this.href);
   }
 
   getDescribedMonth(month: number) {

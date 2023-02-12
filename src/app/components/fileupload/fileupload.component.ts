@@ -37,15 +37,12 @@ export class FileuploadComponent implements OnInit{
 
   onUpload(){
     this.loading = !this.loading;
-    console.log(this.file);
 
     this.fileUploadService.upload(this.file).subscribe({
       next: (e) => {
-        if (typeof (e) === 'object'){
           this.loading = false;
           this.event = e;
           this.clean = !this.clean;
-        }
       },
       error: (response) => {
         console.log(response)
