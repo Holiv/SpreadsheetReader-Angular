@@ -1,4 +1,8 @@
-# <p id="start">SpreadsheetReader</p>
+# <img id='start' width='38px' src='./src/assets/img/logoiconwbg.png'> SpreadsheetReader 
+
+## ![Vercel](https://vercelbadge.vercel.app/api/holiv/SpreadsheetReader-Angular) [Accessar aplicação](https://spreadsheet-reader.vercel.app/)
+
+<i>Este repositório é referente ao Frontend desta aplicação. Para visualizar os dados referente ao Backend acessar o respectivo repositoriório clicando [aqui](https://github.com/Holiv/SpreadsheetReader-ASP.NETCoreWebAPI)</i>
 ### Aplicação desenvolvida como desafio da empresa Astéria.
 
 - <a href="#intro">Introdução</a>
@@ -8,14 +12,15 @@
   - <a href="#inicio">Inicio</a>
   - <a href="#env">Enviando Arquivos</a>
   - <a href="#carr">Carregando a Planilha</a>
+  - <a href='#filtro'>Filtros</a>
 - <a href="#emp">A Empresa</a>
 
 ---
 ## <p id="#intro">Introdução</p>
 
-O SpreadsheetReader, como decidi nomea-lo, tem o objetivo de importar um arquivo em Excel, com uma listagem de pedidos, extrair esses dados, importa-los para o banco de dados para que então esses dados possam ser consumidos e manipulados pelo usuário através de uma interface.
+O SpreadsheetReader, como decidi nomea-lo, tem o objetivo de importar um arquivo em Excel contendo uma listagem de pedidos, extrair esses dados, importa-los para o banco de dados para que então esses dados possam ser consumidos e manipulados pelo usuário através de uma interface.
 
-Repositório referente ao Front-End da aplicação.
+[gif aqui]
 
 ## <p id="#desafio">O Desafio</p>
 
@@ -39,6 +44,13 @@ Foram utilizados componentes do Angular para a criação dos elementos utilizado
 Uma vez que a planilha é enviada ao banco de dados, podemos solicitar o carregamento dos dados na pagina.
 Foram utilizados componentes e serviços do Angular para criar uma requisição Http do tipo GET e carregar os dados na pagina. 
 Através da utilização de rotas os elementos são alterados sem a necessidade de um Reload na página.
+
+### <p id="#filtro">Filtros</p>
+A Aplicação possui filtragem de dados por Codigo do Cliente, Categoria do Produto, Mês da operação e Trimestre, sendo o trimestre mostrado em forma de gráfico.
+
+Os filtros podem ser selecionados através de lista de opcões pré-carregadas com valores existentes. Por exemplo, se em um determinado mês nenhuma operação ocorreu, esse mês não estará disponível na listagem de filtragem por mês.
+
+O mesmo ocorre para a incluão de novos dados. Se um novo pedido for feito com um novo código de cliente, o devido código será carregado automaticamente como opção de seleção para filtragem do usuário.
 
 ## <p id="#carr">A Empresa</p>
 Desde 2005 no mercado, a Astéria se destaca por ser uma empresa diferenciada, com a capacidade de compreender as exigências e particularidades de cada projeto, e oferecer soluções exclusivas e inovadoras.
