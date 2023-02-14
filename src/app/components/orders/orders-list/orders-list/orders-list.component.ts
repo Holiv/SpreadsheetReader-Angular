@@ -23,7 +23,6 @@ export class OrdersListComponent {
     this.orderService.getChunckOrders().subscribe({
       next: (chunckOrder) => {
         this.ordersChunck = chunckOrder;
-        // console.log(this.ordersChunck)
         this.getOrdersCurrentList();
         this.getPages();
       },
@@ -51,7 +50,6 @@ export class OrdersListComponent {
   getPages(){
     for (let i = 1; i <= this.ordersChunck.length; i++) {
       this.pages.push(i)
-      console.log(this.pages)
     }
   }
 

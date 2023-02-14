@@ -18,7 +18,7 @@ export class OrdersService {
   }
 
   getChunckOrders(): Observable<[Order[]]>{
-    return this.http.get<[Order[]]>(this.ApiBaseUrl + "api/orders/chunk");
+    return this.http.get<[Order[]]>(this.ApiBaseUrl + "api/orders");
   }
 
   getByCode(codeValue: string): Observable<Order[]>{
