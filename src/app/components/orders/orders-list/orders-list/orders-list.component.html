@@ -30,3 +30,8 @@
         </tfoot>
       </table>
 </div>
+<nav class="container">
+  <ul class="pagination">
+    <li class="page-item" *ngFor="let page of pages" value="{{ page }}" (click)="getOrdersCurrentList(page)" routerLink="{{page}}"><a class="page-link">{{ page }}</a></li>
+  </ul>
+</nav>
