@@ -10,22 +10,26 @@ import { OrdersService } from 'src/app/services/orders.service'
 
 export class OrdersListComponent {
 
+  ordersChunck: [Order[]] = [[]];
   orders: Order[] = [];
+  pages: number[] = [];
   totalOrderValue: number = 0;
   totalPedidos: number = 0
 
   constructor(private orderService: OrdersService){}
 
   ngOnInit(): void{
-    this.orderService.getAllOrders().subscribe({
-      next: (order) => {
-        this.orders = order;
-        this.getSum();
+
+    this.orderService.getChunckOrders().subscribe({
+      next: (chunckOrder) => {
+        this.ordersChunck = chunckOrder;
+        this.getOrdersCurrentList();
+        this.getPages();
       },
       error: (response) => {
-        console.log(response);
+        console.log(response)
       }
-    });
+    })
   }
 
   getSum(){
@@ -36,4 +40,17 @@ export class OrdersListComponent {
       this.totalPedidos += order.quantity; 
     });
   }
+
+  getOrdersCurrentList(page = 1){
+    let index = page - 1;
+    this.orders = this.ordersChunck[index]
+    this.getSum()
+  }
+
+  getPages(){
+    for (let i = 1; i <= this.ordersChunck.length; i++) {
+      this.pages.push(i)
+    }
+  }
+
 }

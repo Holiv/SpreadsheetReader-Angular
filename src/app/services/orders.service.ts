@@ -17,6 +17,10 @@ export class OrdersService {
     return this.http.get<Order[]>(this.ApiBaseUrl + "api/orders")
   }
 
+  getChunckOrders(): Observable<[Order[]]>{
+    return this.http.get<[Order[]]>(this.ApiBaseUrl + "api/orders");
+  }
+
   getByCode(codeValue: string): Observable<Order[]>{
     let param = new HttpParams().set('code', codeValue)
     return this.http.get<Order[]>(this.ApiBaseUrl + 'api/orders/code', {params: param})

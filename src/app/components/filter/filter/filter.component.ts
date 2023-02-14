@@ -32,7 +32,6 @@ export class FilterComponent {
     router.events.subscribe((val) => {
       if (location.path() != '') {
         this.href = location.path();
-        console.log(this.href);
       } else {
         this.href = 'Home';
       }
